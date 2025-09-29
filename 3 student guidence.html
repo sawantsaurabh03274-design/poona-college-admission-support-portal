@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poona College - Admission Portal</title>
+    <style>
+        :root {
+            --primary: #1a4b8c;
+            --secondary: #f0f5ff;
+            --accent: #ff6b35;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), #0d3a7a);
+            color: white;
+            padding: 20px 0;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 60px;
+            margin-right: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+        }
+        
+        .student-info {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+        
+        .progress-tracker {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        
+        .progress-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background-color: var(--light);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .step.active {
+            border-left-color: var(--accent);
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .step.completed {
+            border-left-color: var(--success);
+            background-color: #f0fff4;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .step.pending .step-icon {
+            background-color: #6c757d;
+        }
+        
+        .step.active .step-icon {
+            background-color: var(--accent);
+        }
+        
+        .step.completed .step-icon {
+            background-color: var(--success);
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .step-actions {
+            margin-left: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0d3a7a;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--success);
+            cursor: pointer;
+        }
+        
+        .sidebar {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            height: fit-content;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .notification {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+        }
+        
+        .notification-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            font-size: 0.8rem;
+        }
+        
+        .notification.info .notification-icon {
+            background-color: var(--primary);
+        }
+        
+        .notification.warning .notification-icon {
+            background-color: var(--warning);
+        }
+        
+        .notification.success .notification-icon {
+            background-color: var(--success);
+        }
+        
+        .deadline-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .deadline-date {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .support-contact {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <!-- Placeholder for college logo -->
+                    <div style="width: 60px; height: 60px; background-color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: bold;">PC</div>
+                    <h1>Poona College Admission Portal</h1>
+                </div>
+                <div class="student-info">
+                    <p>Welcome, <strong>Rahul Sharma</strong> | Application ID: PC2023001</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="content-primary">
+                <div class="progress-tracker">
+                    <div class="progress-header">
+                        <h2 class="progress-title">Admission Progress</h2>
+                        <div class="progress-status">25% Complete</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 25%;"></div>
+                    </div>
+                    
+                    <div class="steps-container" id="stepsContainer">
+                        <!-- Steps will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="current-step-content" id="currentStepContent">
+                    <!-- Dynamic content based on current step -->
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Notifications</h3>
+                    <div class="notification info">
+                        <div class="notification-icon">i</div>
+                        <div>Your application form is under review</div>
+                    </div>
+                    <div class="notification warning">
+                        <div class="notification-icon">!</div>
+                        <div>Document verification pending</div>
+                    </div>
+                    <div class="notification success">
+                        <div class="notification-icon">✓</div>
+                        <div>Application fee received</div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Important Deadlines</h3>
+                    <div class="deadline-item">
+                        <span>Document Submission</span>
+                        <span class="deadline-date">15 Aug 2023</span>
+                    </div>
+                    <div class="deadline-item">
+                        <span>Fee Payment</span>
+                        <span class="deadline-date">20 Aug 2023</span>
+                    </div>
+                    <div class="deadline-item">
+                        <span>Orientation Program</span>
+                        <span class="deadline-date">01 Sep 2023</span>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Support</h3>
+                    <div class="support-contact">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>Admission Helpdesk</strong><br>
+                            +91 98765 43210
+                        </div>
+                    </div>
+                    <div class="support-contact">
+                        <div class="contact-icon"✉️</div>
+                        <div>
+                            <strong>Email Support</strong><br>
+                            admissions@poonacollege.edu
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for step actions -->
+    <div class="modal" id="actionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Complete Step</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div id="modalBody">
+                <!-- Dynamic content based on step -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" id="cancelAction">Cancel</button>
+                <button class="btn btn-primary" id="confirmAction">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admission steps data
+        const admissionSteps = [
+            {
+                id: 1,
+                title: "Application Form Submission",
+                description: "Fill and submit the online application form",
+                status: "completed", // pending, active, completed
+                action: "View Form"
+            },
+            {
+                id: 2,
+                title: "Document Upload",
+                description: "Upload required documents (ID proof, marksheets, etc.)",
+                status: "active",
+                action: "Upload Documents"
+            },
+            {
+                id: 3,
+                title: "Application Fee Payment",
+                description: "Pay the application fee through available payment methods",
+                status: "pending",
+                action: "Pay Now"
+            },
+            {
+                id: 4,
+                title: "Document Verification",
+                description: "College will verify your submitted documents",
+                status: "pending",
+                action: "View Status"
+            },
+            {
+                id: 5,
+                title: "Admission Confirmation",
+                description: "Receive and confirm your admission offer",
+                status: "pending",
+                action: "Confirm Admission"
+            },
+            {
+                id: 6,
+                title: "Fee Payment",
+                description: "Pay the tuition and other fees",
+                status: "pending",
+                action: "Pay Fees"
+            },
+            {
+                id: 7,
+                title: "Course Registration",
+                description: "Register for your courses and electives",
+                status: "pending",
+                action: "Register Courses"
+            },
+            {
+                id: 8,
+                title: "ID Card Generation",
+                description: "Receive your student ID card",
+                status: "pending",
+                action: "View ID Card"
+            }
+        ];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            renderSteps();
+            updateProgressBar();
+            showCurrentStepContent();
+            
+            // Modal event listeners
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('cancelAction').addEventListener('click', closeModal);
+            document.getElementById('confirmAction').addEventListener('click', confirmStepAction);
+        });
+
+        // Render the admission steps
+        function renderSteps() {
+            const stepsContainer = document.getElementById('stepsContainer');
+            stepsContainer.innerHTML = '';
+            
+            admissionSteps.forEach(step => {
+                const stepElement = document.createElement('div');
+                stepElement.className = `step ${step.status}`;
+                stepElement.innerHTML = `
+                    <div class="step-icon">${step.id}</div>
+                    <div class="step-content">
+                        <div class="step-title">${step.title}</div>
+                        <div class="step-description">${step.description}</div>
+                    </div>
+                    <div class="step-actions">
+                        ${step.status === 'active' ? 
+                            `<button class="btn btn-primary" onclick="openActionModal(${step.id})">${step.action}</button>` : 
+                            step.status === 'completed' ? 
+                            `<input type="checkbox" class="checkbox" checked disabled>` :
+                            `<button class="btn btn-outline" disabled>${step.action}</button>`
+                        }
+                    </div>
+                `;
+                stepsContainer.appendChild(stepElement);
+            });
+        }
+
+        // Update progress bar based on completed steps
+        function updateProgressBar() {
+            const completedSteps = admissionSteps.filter(step => step.status === 'completed').length;
+            const totalSteps = admissionSteps.length;
+            const progressPercentage = (completedSteps / totalSteps) * 100;
+            
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+            document.querySelector('.progress-status').textContent = `${Math.round(progressPercentage)}% Complete`;
+        }
+
+        // Show content for the current active step
+        function showCurrentStepContent() {
+            const currentStep = admissionSteps.find(step => step.status === 'active');
+            const contentContainer = document.getElementById('currentStepContent');
+            
+            if (currentStep) {
+                contentContainer.innerHTML = `
+                    <div class="progress-tracker">
+                        <h2 class="progress-title">Current Step: ${currentStep.title}</h2>
+                        <p>${currentStep.description}</p>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="openActionModal(${currentStep.id})">${currentStep.action}</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // If no active step, show completion message
+                const allCompleted = admissionSteps.every(step => step.status === 'completed');
+                if (allCompleted) {
+                    contentContainer.innerHTML = `
+                        <div class="progress-tracker" style="text-align: center; padding: 40px;">
+                            <h2 style="color: var(--success); margin-bottom: 15px;">Admission Process Completed!</h2>
+                            <p>Congratulations! You have successfully completed all admission steps.</p>
+                            <p>You will receive further instructions via email shortly.</p>
+                            <div style="margin-top: 20px;">
+                                <button class="btn btn-success">Download Admission Letter</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Open modal for step action
+        function openActionModal(stepId) {
+            const step = admissionSteps.find(s => s.id === stepId);
+            const modal = document.getElementById('actionModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = step.title;
+            
+            // Different modal content based on step
+            switch(stepId) {
+                case 1: // Application Form
+                    modalBody.innerHTML = `
+                        <p>Your application form has been submitted successfully.</p>
+                        <div class="form-group">
+                            <label class="form-label">Application ID</label>
+                            <input type="text" class="form-control" value="PC2023001" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Submitted On</label>
+                            <input type="text" class="form-control" value="15 July 2023" readonly>
+                        </div>
+                        <p>Status: <strong style="color: var(--success);">Approved</strong></p>
+                    `;
+                    break;
+                    
+                case 2: // Document Upload
+                    modalBody.innerHTML = `
+                        <p>Please upload the following documents:</p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li>10th Marksheet</li>
+                            <li>12th Marksheet</li>
+                            <li>Aadhar Card</li>
+                            <li>Passport Size Photo</li>
+                        </ul>
+                        <div class="form-group">
+                            <label class="form-label">Upload Document</label>
+                            <input type="file" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Document Type</label>
+                            <select class="form-control">
+                                <option>10th Marksheet</option>
+                                <option>12th Marksheet</option>
+                                <option>Aadhar Card</option>
+                                <option>Passport Photo</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                    
+                case 3: // Fee Payment
+                    modalBody.innerHTML = `
+                        <p>Application Fee: <strong>₹500</strong></p>
+                        <div class="form-group">
+                            <label class="form-label">Payment Method</label>
+                            <select class="form-control">
+                                <option>Credit/Debit Card</option>
+                                <option>Net Banking</option>
+                                <option>UPI</option>
+                                <option>Wallet</option>
+                            </select>
+                        </div>
+                        <p>After successful payment, you will receive a confirmation email.</p>
+                    `;
+                    break;
+                    
+                default:
+                    modalBody.innerHTML = `
+                        <p>Action for: ${step.title}</p>
+                        <p>${step.description}</p>
+                    `;
+            }
+            
+            // Store the current step ID in the modal for confirmation
+            modal.dataset.stepId = stepId;
+            modal.style.display = 'flex';
+        }
+
+        // Close the modal
+        function closeModal() {
+            document.getElementById('actionModal').style.display = 'none';
+        }
+
+        // Confirm the step action and mark as completed
+        function confirmStepAction() {
+            const modal = document.getElementById('actionModal');
+            const stepId = parseInt(modal.dataset.stepId);
+            
+            // Update step status to completed
+            admissionSteps.forEach(step => {
+                if (step.id === stepId) {
+                    step.status = 'completed';
+                }
+            });
+            
+            // Activate the next step if available
+            const nextStep = admissionSteps.find(step => step.id === stepId + 1);
+            if (nextStep) {
+                nextStep.status = 'active';
+            }
+            
+            // Update the UI
+            renderSteps();
+            updateProgressBar();
+            showCurrentStepContent();
+            
+            // Close the modal
+            closeModal();
+            
+            // Show success message
+            alert('Step completed successfully!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graduation Document Submission Portal</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-section, .status-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        
+        .file-input {
+            padding: 10px;
+            background-color: var(--light-color);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .required::after {
+            content: " *";
+            color: var(--accent-color);
+        }
+        
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-submit {
+            background-color: var(--success-color);
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-submit:hover {
+            background-color: #219653;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background-color: var(--light-color);
+            transition: transform 0.3s;
+        }
+        
+        .status-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .document-name {
+            font-weight: 600;
+        }
+        
+        .status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .status-submitted {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .status-rejected {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .status-approved {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success-color);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transform: translateX(150%);
+            transition: transform 0.5s;
+            z-index: 1000;
+        }
+        
+        .notification-success {
+            background-color: var(--success-color);
+        }
+        
+        .notification-error {
+            background-color: var(--accent-color);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Graduation Document Submission Portal</h1>
+            <p class="subtitle">Submit all required documents for your graduation application</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <!-- Document Submission Form -->
+            <section class="form-section">
+                <h2>Document Submission Form</h2>
+                <form id="documentForm">
+                    <div class="form-group">
+                        <label for="studentId" class="required">Student ID</label>
+                        <input type="text" id="studentId" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fullName" class="required">Full Name</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="degreeProgram" class="required">Degree Program</label>
+                        <select id="degreeProgram" required>
+                            <option value="">Select your degree program</option>
+                            <option value="bachelor">Bachelor's Degree</option>
+                            <option value="master">Master's Degree</option>
+                            <option value="phd">Doctoral Degree (PhD)</option>
+                            <option value="professional">Professional Degree</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="documentType" class="required">Document Type</label>
+                        <select id="documentType" required>
+                            <option value="">Select document type</option>
+                            <option value="transcript">Official Transcript</option>
+                            <option value="thesis">Thesis/Dissertation</option>
+                            <option value="application">Graduation Application Form</option>
+                            <option value="feeReceipt">Fee Payment Receipt</option>
+                            <option value="idProof">ID Proof</option>
+                            <option value="photo">Passport Size Photo</option>
+                            <option value="other">Other Document</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="documentFile" class="required">Upload Document</label>
+                        <input type="file" id="documentFile" class="file-input" required>
+                        <small>Accepted formats: PDF, JPG, PNG (Max size: 5MB)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comments">Additional Comments</label>
+                        <textarea id="comments" rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-submit">Submit Document</button>
+                </form>
+            </section>
+            
+            <!-- Document Status Panel -->
+            <section class="status-section">
+                <h2>Document Submission Status</h2>
+                
+                <div class="progress-text">
+                    Submission Progress: <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+                
+                <div id="statusList">
+                    <!-- Status items will be dynamically added here -->
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+    
+    <footer>
+        <div class="container">
+            <p>Graduation Document Submission System &copy; 2023 | For assistance, contact registrar@university.edu</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Sample required documents for graduation
+        const requiredDocuments = [
+            { id: 1, name: "Official Transcript", type: "transcript", submitted: false },
+            { id: 2, name: "Graduation Application Form", type: "application", submitted: false },
+            { id: 3, name: "Thesis/Dissertation", type: "thesis", submitted: false },
+            { id: 4, name: "Fee Payment Receipt", type: "feeReceipt", submitted: false },
+            { id: 5, name: "ID Proof", type: "idProof", submitted: false },
+            { id: 6, name: "Passport Size Photo", type: "photo", submitted: false }
+        ];
+        
+        // Initialize the status panel
+        function initializeStatusPanel() {
+            const statusList = document.getElementById('statusList');
+            statusList.innerHTML = '';
+            
+            requiredDocuments.forEach(doc => {
+                const statusItem = document.createElement('div');
+                statusItem.className = 'status-item';
+                statusItem.id = `doc-${doc.id}`;
+                
+                const status = doc.submitted ? 'Submitted' : 'Pending';
+                const statusClass = doc.submitted ? 'status-submitted' : 'status-pending';
+                
+                statusItem.innerHTML = `
+                    <div class="document-name">${doc.name}</div>
+                    <div class="status ${statusClass}">${status}</div>
+                `;
+                
+                statusList.appendChild(statusItem);
+            });
+            
+            updateProgress();
+        }
+        
+        // Update progress bar and percentage
+        function updateProgress() {
+            const submittedCount = requiredDocuments.filter(doc => doc.submitted).length;
+            const totalCount = requiredDocuments.length;
+            const percentage = Math.round((submittedCount / totalCount) * 100);
+            
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+            document.getElementById('progressPercent').textContent = `${percentage}%`;
+        }
+        
+        // Show notification
+        function showNotification(message, isSuccess) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${isSuccess ? 'notification-success' : 'notification-error'}`;
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+        
+        // Handle form submission
+        document.getElementById('documentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const documentType = document.getElementById('documentType').value;
+            const documentFile = document.getElementById('documentFile').files[0];
+            
+            if (!documentType || !documentFile) {
+                showNotification('Please select a document type and upload a file.', false);
+                return;
+            }
+            
+            // Find the corresponding document in requiredDocuments
+            const docIndex = requiredDocuments.findIndex(doc => doc.type === documentType);
+            
+            if (docIndex !== -1) {
+                // Mark document as submitted
+                requiredDocuments[docIndex].submitted = true;
+                
+                // Update the status panel
+                const statusItem = document.getElementById(`doc-${requiredDocuments[docIndex].id}`);
+                statusItem.querySelector('.status').textContent = 'Submitted';
+                statusItem.querySelector('.status').className = 'status status-submitted';
+                
+                // Update progress
+                updateProgress();
+                
+                // Show success message
+                showNotification(`Document "${requiredDocuments[docIndex].name}" submitted successfully!`, true);
+                
+                // Reset form
+                this.reset();
+            } else {
+                showNotification('Document type not recognized. Please contact support.', false);
+            }
+        });
+        
+        // Simulate some documents already submitted (for demo purposes)
+        window.onload = function() {
+            // Mark a couple of documents as submitted for demo
+            requiredDocuments[0].submitted = true; // Transcript
+            requiredDocuments[3].submitted = true; // Fee Receipt
+            
+            initializeStatusPanel();
+        };
+    </script>
+</body>
+</html>
